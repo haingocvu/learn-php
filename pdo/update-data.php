@@ -5,32 +5,33 @@ $username = "root";
 $password = "";
 $databasename = "MyDBPDO";
 
-
 try {
 	$conn = new PDO("mysql:host=$servername;dbname=$databasename", $username, $password);
-	//set the pdo error mode to exception
+	// set the PDO error mode to exception
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$conn->exec("set names utf8");
 
 	//sql
-	$sql = "DELETE FROM MyGuests
-	WHERE id = ?";
+	$sql = "UPDATE MyGuests
+	SET firstname  = 'Truc'
+	WHERE id = ?
+	";
 
-	//prepare and bind params
+	//prepare and binding
 	$stmt = $conn->prepare($sql);
 	$stmt->bindParam(1,$idGuest);
 
 	//execute
-	$idGuest = 12;
+	$idGuest = 1;
 	$rs = $stmt->execute();
 
-	if($rs == true){
-		echo "deleted id $idGuest successfully!";
-	}else{
-		echo "failed to delete $idGuest!";
+	if($rs){
+		echo "updated the guest with id: $idGuest successfully!";
+	}else {
+		echo "failed to update the guest with id: $idGuest";
 	}
 } catch (PDOException $e) {
-	echo "Error: ".$e->getMessage();
+	echo "ERROR : ".$e->getMessage();
 }
 
 $conn = null;
