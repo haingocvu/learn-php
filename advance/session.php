@@ -1,17 +1,15 @@
 <?php
 if(isset($_POST["logout"])){
-    if(isset($_COOKIE["username"])){
-        setcookie("username", "", time() - 5*60, "/");
-        //because cookie embeds on user's computer, we must to refresh page to see result.
-        header("Refresh:0");
+    if(isset($_SESSION["username"])){
+        unset($_SESSION["username"]);
+        //header("Refresh:0");
     }
 }elseif(isset($_POST["submit"])){
     $username = "trantuyen";
     $password = "iloveyou";
     if($_POST["username"] == $username && $_POST["password"] == $password){
-        setcookie("username", $username, time() + 5*60, "/");
-        //because cookie embeds on user's computer, we must to refresh page to see result.
-        header("Refresh:0");
+        $_SESSION["username"] = $username;
+        //header("Refresh:0");
     }
 }
 ?>
@@ -24,15 +22,15 @@ if(isset($_POST["logout"])){
     <title>Document</title>
 </head>
 <body>
-    <?php if(!isset($_COOKIE["username"])): ?>
+    <?php if(!isset($_SESSION["username"])): ?>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
         <input type="text" name="username" placeholder="name">
         <input type="password" name="password" placeholder="password">
         <input type="submit" name="submit" value="login">
     </form>
     <?php endif; ?>
-    <?php if(isset($_COOKIE["username"])): ?>
-    <?= "welcome: ".$_COOKIE["username"]; ?>
+    <?php if(isset($_SESSION["username"])): ?>
+    <?= "welcome: ".$_SESSION["username"]; ?>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
         <input type="submit" name="logout" value="logout">
     </form>
