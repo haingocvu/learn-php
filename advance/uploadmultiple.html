@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload Multiple</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        let jq = $.noConflict();
+        jq(document).ready(function(){
+            let input = jq("#file");
+            let ul = jq("#filelist");
+            input.on("change", ()=>{
+                //empty list
+                ul.empty();
+                //console.log(input);
+                //print list item selected
+                for(let file of input[0].files){
+                    //console.log(file.name);
+                    let li = jq("<li></li>").text(file.name);
+                    ul.append(li);
+                }
+                //if no item selected, print alert
+                if(!ul.children("li").length > 0){
+                    ul.append("<li> no item selected</li>");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <form action="uploadMultiple.php" enctype="multipart/form-data" method="POST">
+        <input type="file" value="choose file" id="file" name="uploadedimg[]" multiple>
+        <input type="submit" value="upload" name="upload">
+        <ul id="filelist">
+            <li>No item selected</li>
+        </ul>
+    </form>
+</body>
+</html>
