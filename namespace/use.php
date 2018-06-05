@@ -38,6 +38,9 @@ Hello::getAge(1989);
 
 //call global random
 echo \rand(2, 10)."</br>";
+//when PHP encounters an unqualified Name, function and constant will fall back to global func/const if does not exist.
+//class does not. class result fatal error.
+echo rand(2, 10)."</br>";
 
 //call own function
 myFunction();
